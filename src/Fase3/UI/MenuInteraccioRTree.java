@@ -59,7 +59,6 @@ public class MenuInteraccioRTree {
         jugadors.add(jugador);
 
         System.out.println("\nEl jugador " + nom + " ha entrat al sistema!");
-        printPlayers(jugadors);
     }
 
     /**
@@ -101,43 +100,5 @@ public class MenuInteraccioRTree {
             }
             System.out.println("Entrada no vàlida. Escriu 'si' o 'no'.");
         }
-    }
-
-    /**
-     * Imprime la información de todos los jugadores de la lista.
-     *
-     * @param jugadors Lista de jugadores a imprimir.
-     */
-    public void printPlayers(List<Jugador> jugadors) {
-        System.out.println("Jugadors inserits:");
-        for (Jugador j : jugadors) {
-            System.out.println("Jugador: " + j.getNom() + ", MBR: " + j.getMBR());
-        }
-    }
-
-    /**
-     * Método recursivo que imprime el nodo actual y sus hijos.
-     *
-     * @param nodo  El nodo a imprimir.
-     * @param level Nivel de indentación (profundidad).
-     */
-    private void printNode(NodoRTree nodo, int level) {
-        String indent = "  ".repeat(level);
-        System.out.println(indent + "Nodo - MBR: " + nodo.getMBR());
-        for (Figura f : nodo.getHijos()) {
-            if (f instanceof NodoRTree) {
-                printNode((NodoRTree) f, level + 1);
-            } else {
-                System.out.println(indent + "  Jugador - MBR: " + f.getMBR());
-            }
-        }
-    }
-
-    /**
-     * Imprime la estructura del R-Tree mostrando el MBR de cada nodo y de cada jugador.
-     */
-    public void printTree() {
-        System.out.println("Estructura del R-Tree:");
-        printNode(arbol.getRaiz(), 0);
     }
 }
