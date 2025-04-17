@@ -78,6 +78,12 @@ public class RTree {
                         mejorHijo = hijo;
                         break;
                     } else {
+                        Rectangulo hijoMBR = hijo.getMBR();
+                        Rectangulo figuraMBR = figura.getMBR();
+
+                        if (hijoMBR == null || figuraMBR == null) {
+                            continue; // saltar este hijo si alguno no tiene MBR ,sino nos salia un NULL pointer exception
+                        }
                         // Se calcula el incremento de perímetro que requiere añadir la figura
                         double incremento = hijo.getMBR().incrementoPerimetro(figura.getMBR());
                         if (incremento < menorIncremento) {
