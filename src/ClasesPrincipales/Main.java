@@ -10,7 +10,9 @@ import Fase1.Grafs.ExMapaSimplificat.MapaSimplificat;
 import Fase1.Grafs.ExSimulacioDeViatge.SimulacioDeViatge;
 import Fase2.Arbres.GeneracióDePatrulles.GeneracioDePatrulles;
 import Fase2.Arbres.buscarHeroi.searchHeroiRecursive;
+import Fase3.RTree.Figura;
 import Fase3.RTree.Jugador;
+import Fase3.RTree.NodoRTree;
 import Fase3.RTree.RTree;
 import Fase3.UI.MenuInteraccioRTree;
 
@@ -28,6 +30,7 @@ import static Fase2.Arbres.FuncionalitatsBasiques_Arbre.FuncionalitatsBasiques.e
 import static Fase2.Arbres.LluitaCases.LluitaCases.accioLluitaCases;
 import static Fase2.Arbres.RepresentacioArbre.representacioArbre.representarArbre;
 import static Fase2.Arbres.redistribucioMentors.redistribucioMentors.redistribuirMentors;
+import static Fase3.UI.EliminarRtree.eliminarJugador;
 import static Fase3.UI.RepresentTTree.representGraficament;
 import static Fase3.UI.CercaDivisions.cerca;
 
@@ -43,6 +46,7 @@ public class Main {
     static List<Ruta> rutes = new ArrayList<>();
     static List<Heroi> herois = new ArrayList<>();
     static List<Jugador> jugadors = new ArrayList<>();
+    static RTree rtree ;
 
     /**
      * Método principal. Lee los datos de los archivos, construye las estructuras y muestra
@@ -65,8 +69,13 @@ public class Main {
             arbre.inserirNode(node, node.getPoder());
         }
 
-        RTree rtree = new RTree(8, 3);
+        AssignarFillsMaxims();
+
+        for(Jugador jugador : jugadors) {
+            rtree.insertar(jugador);
+        }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
+
 
         Scanner input = new Scanner(System.in);
         char option2;
@@ -207,7 +216,7 @@ public class Main {
                             menu.afegirJugador();
                             break;
                         case 'B':
-                            //TODO: eliminar jugador
+                            eliminarJugador(rtree);
                             break;
                         case 'C':
                             representGraficament(jugadors);
@@ -403,4 +412,22 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
+    public static void AssignarFillsMaxims() {
+        int total = jugadors.size();
+
+
+        int maxEntrades = (int) (Math.ceil(jugadors.size()*0.6));
+        if(maxEntrades>50){
+            maxEntrades = 50;
+        }
+        if(maxEntrades<5){
+            maxEntrades = 10;
+        }
+        int minEntrades = (int)(Math.ceil(maxEntrades*0.3));
+
+        rtree = new RTree(maxEntrades, minEntrades);
+
+    }
+
+
 }

@@ -36,6 +36,11 @@ public class NodoRTree extends Figura {
 
     public void addHijo(Figura hijo) {
         this.hijos.add(hijo);
+        if (hijo instanceof NodoRTree) {
+            ((NodoRTree) hijo).setPadre(this);
+        } else if (hijo instanceof Jugador) {
+            ((Jugador) hijo).setPadre(this);
+        }
     }
 
     public void removeHijo(Figura hijo) {
