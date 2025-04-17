@@ -52,10 +52,7 @@ public class EliminarRtree {
             return;
         }
 
-
         if (nodo.getNumHijos() < NodoRTree.ENTRADAS_MINIMAS) {
-            System.out.printf("⚠️ Nodo con %d hijos. Mínimo permitido: %d. Eliminando nodo...\n",
-                    nodo.getNumHijos(), NodoRTree.ENTRADAS_MINIMAS);
 
             NodoRTree padre = nodo.getPadre();
 
