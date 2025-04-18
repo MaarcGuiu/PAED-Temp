@@ -11,11 +11,14 @@ public class NodoRTree extends Figura {
     public static int ENTRADAS_MAXIMAS;
     public static int ENTRADAS_MINIMAS;
 
+    private Rectangulo mbr;
+
     public NodoRTree(int entradasMaximas, int entradasMinimas, NodoRTree padre) {
         this.hijos = new ArrayList<>();
         this.padre = padre;
         ENTRADAS_MAXIMAS = entradasMaximas;
         ENTRADAS_MINIMAS = entradasMinimas;
+        this.mbr = null;
     }
 
     public List<Figura> getHijos() {
@@ -62,6 +65,18 @@ public class NodoRTree extends Figura {
             }
         }
         return mbr;
+    }
+
+    public void recalcularMBR() {
+        Rectangulo calc = null;
+        for (Figura f : hijos) {
+            if (calc == null) {
+                calc = f.getMBR().copiaHijo();
+            } else {
+                calc.expandir(f.getMBR());
+            }
+        }
+        mbr = calc;
     }
 
     // https://www.baeldung.com/java-instanceof

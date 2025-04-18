@@ -24,24 +24,20 @@ public class Arbre {
             return null;
         }
 
-        // Buscamos el nodo con el ID, recorriendo el árbol en su totalidad
         if (actual.getId() == id) {
             System.out.println("L'heroi " + actual.getNom() + " ha estat eliminat.");
 
-            // Caso 1: Nodo sin hijos o con un solo hijo
             if (actual.getEsquerra() == null) {
                 return actual.getDreta();
             } else if (actual.getDreta() == null) {
                 return actual.getEsquerra();
             }
 
-            // Caso 2: Nodo con dos hijos, buscamos el sucesor in-order
             Node successor = trobarSuccessor(actual.getDreta());
             actual.id = successor.id;
             actual.poder = successor.poder;
             actual.setDreta(eliminarHeroiRecursiu(actual.getDreta(), successor.getId()));
         } else {
-            // si el ID no coincide, seguimos buscando en ambos subárboles
             actual.setEsquerra(eliminarHeroiRecursiu(actual.getEsquerra(), id));
             actual.setDreta(eliminarHeroiRecursiu(actual.getDreta(), id));
         }

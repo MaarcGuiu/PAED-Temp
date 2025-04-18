@@ -1,19 +1,14 @@
 package Fase3.UI;
+
 import Fase3.RTree.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
 public class EliminarRtree {
 
-
-
     public static void eliminarJugador(RTree rTree) {
-
-
         System.out.println("📋 Estado del RTree antes de eliminar:");
         imprimirRTree(rTree.getRaiz(), "");
         System.out.println("Introduce el ID del jugador a eliminar:");

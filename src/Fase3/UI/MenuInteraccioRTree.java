@@ -55,7 +55,6 @@ public class MenuInteraccioRTree {
 
         Jugador jugador = new Jugador(id, nom, dataRegistre, batallesFetes, batallesGuanyades, pvp, color);
         arbol.insertar(jugador);
-        // Añadimos el jugador a la lista para futuras operaciones (delete, update, etc.)
         jugadors.add(jugador);
 
         System.out.println("\nEl jugador " + nom + " ha entrat al sistema!");

@@ -62,5 +62,4 @@ public class CercaDivisions {
         return !(a.getMaxHechas() < b.getMinHechas() || a.getMinHechas() > b.getMaxHechas() ||
                 a.getMaxGanadas() < b.getMinGanadas() || a.getMinGanadas() > b.getMaxGanadas());
     }
-
 }

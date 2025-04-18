@@ -6,7 +6,6 @@ import java.util.Date;
  * Representa a un jugador con sus estadísticas y datos personales.
  */
 public class Jugador extends Figura {
-
     private int id;
     private String name;
     private Date registrationDate;
@@ -102,9 +101,11 @@ public class Jugador extends Figura {
     public Rectangulo getMBR() {
         return Rectangulo.RecJugador(this);
     }
+
     public void setPadre(NodoRTree padre) {
         this.padre = padre;
     }
+
     public NodoRTree getPadre() {
         return padre;
     }

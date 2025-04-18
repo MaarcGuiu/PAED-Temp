@@ -19,9 +19,7 @@ public class redistribucioMentors {
             arbre.setArrel(determinarTipoDesequilibrioRecursivo(arbre.getArrel()));
 
         }
-
         //Hacemos la redistribucion de los mentores ,tambien tenemos que contemplar si la raiz tambien puede estar desequilibrada,el balanceo lo hacmoes de abajo a arriba
-
         int  nivell = Math.max(obtenerAltura(arbre.getArrel().getEsquerra()), obtenerAltura(arbre.getArrel().getDreta()));
         System.out.println("Els mentors han estat redistribuïts. Ara l'abre té "  + nivell + " nivells.");
 
