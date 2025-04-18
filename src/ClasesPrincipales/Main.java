@@ -69,7 +69,7 @@ public class Main {
             arbre.inserirNode(node, node.getPoder());
         }
 
-        AssignarFillsMaxims();
+        assignarFillsMaxims();
 
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
@@ -412,14 +412,20 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-    public static void AssignarFillsMaxims() {
+
+    /**
+     * Asigna al RTree los valores máximos y mínimos de entradas
+     * en función del número de jugadores disponibles.
+     */
+    public static void assignarFillsMaxims() {
         int total = jugadors.size();
 
-
         int maxEntrades = (int) (Math.ceil(jugadors.size()*0.6));
+
         if(maxEntrades>50){
             maxEntrades = 50;
         }
+
         if(maxEntrades<5){
             maxEntrades = 10;
         }
@@ -428,6 +434,4 @@ public class Main {
         rtree = new RTree(maxEntrades, minEntrades);
 
     }
-
-
 }

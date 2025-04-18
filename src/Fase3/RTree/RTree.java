@@ -31,7 +31,7 @@ public class RTree {
     public RTree(int entradasMaximas, int entradasMinimas) {
         NodoRTree.ENTRADAS_MAXIMAS = entradasMaximas;
         NodoRTree.ENTRADAS_MINIMAS = entradasMinimas;
-        raiz = new NodoRTree(entradasMaximas, entradasMinimas, null);
+        raiz = new NodoRTree(entradasMaximas, entradasMinimas, null, null);
     }
 
     /**
@@ -134,7 +134,7 @@ public class RTree {
             balanceMinEntries(g1, g2, min - g2.getNumHijos());
         }
         if (nodo.getPadre() == null) {
-            NodoRTree nuevaRaiz = new NodoRTree(NodoRTree.ENTRADAS_MAXIMAS, NodoRTree.ENTRADAS_MINIMAS, null);
+            NodoRTree nuevaRaiz = new NodoRTree(NodoRTree.ENTRADAS_MAXIMAS, NodoRTree.ENTRADAS_MINIMAS, null, null);
             nuevaRaiz.addHijo(g1);
             nuevaRaiz.addHijo(g2);
             raiz = nuevaRaiz;
@@ -163,6 +163,31 @@ public class RTree {
         while (nodo != null) {
             nodo.recalcularMBR();
             nodo = nodo.getPadre();
+        }
+    }
+
+    /**
+     * Si el nodo tiene menos de ENTRADAS_MINIMAS tras una eliminación,
+     * recolecta todas sus entradas y las re-inserta en el árbol,
+     * eliminando el nodo del padre.
+     */
+    public void handleUnderflow(NodoRTree nodo) {
+        if (nodo.getNumHijos() < NodoRTree.ENTRADAS_MINIMAS) {
+            NodoRTree padre = nodo.getPadre();
+
+            List<Figura> entradas = new ArrayList<>(nodo.getHijos());
+
+            if (padre != null) {
+                padre.removeHijo(nodo);
+                for (Figura f : entradas) {
+                    insertar(raiz, f);
+                }
+                actualizarMBRHaciaArriba(padre);
+            } else {
+                if (entradas.isEmpty()) {
+                    raiz = null;
+                }
+            }
         }
     }
 }

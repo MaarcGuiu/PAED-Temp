@@ -12,13 +12,15 @@ public class NodoRTree extends Figura {
     public static int ENTRADAS_MINIMAS;
 
     private Rectangulo mbr;
+    private RTree rTree;
 
-    public NodoRTree(int entradasMaximas, int entradasMinimas, NodoRTree padre) {
+    public NodoRTree(int entradasMaximas, int entradasMinimas, NodoRTree padre, RTree rTree) {
         this.hijos = new ArrayList<>();
         this.padre = padre;
         ENTRADAS_MAXIMAS = entradasMaximas;
         ENTRADAS_MINIMAS = entradasMinimas;
         this.mbr = null;
+        this.rTree = rTree;
     }
 
     public List<Figura> getHijos() {
@@ -48,7 +50,14 @@ public class NodoRTree extends Figura {
 
     public void removeHijo(Figura hijo) {
         this.hijos.remove(hijo);
+        recalcularMBR();
+        if (padre != null) padre.recalcularMBR();
+        // detectar underflow
+        if (getNumHijos() < ENTRADAS_MINIMAS) {
+            rTree.handleUnderflow(this);
+        }
     }
+
 
     public int getNumHijos() {
         return hijos.size();
@@ -115,8 +124,8 @@ public class NodoRTree extends Figura {
                 }
             }
         }
-        NodoRTree grupo1 = new NodoRTree(ENTRADAS_MAXIMAS, ENTRADAS_MINIMAS, this.padre);
-        NodoRTree grupo2 = new NodoRTree(ENTRADAS_MAXIMAS, ENTRADAS_MINIMAS, this.padre);
+        NodoRTree grupo1 = new NodoRTree(ENTRADAS_MAXIMAS, ENTRADAS_MINIMAS, this.padre, this.rTree);
+        NodoRTree grupo2 = new NodoRTree(ENTRADAS_MAXIMAS, ENTRADAS_MINIMAS, this.padre, this.rTree);
 
         grupo1.addHijo(hijos.get(seed1));
         grupo2.addHijo(hijos.get(seed2));
