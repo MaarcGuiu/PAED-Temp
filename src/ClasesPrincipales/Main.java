@@ -31,6 +31,7 @@ import static Fase2.Arbres.LluitaCases.LluitaCases.accioLluitaCases;
 import static Fase2.Arbres.RepresentacioArbre.representacioArbre.representarArbre;
 import static Fase2.Arbres.redistribucioMentors.redistribucioMentors.redistribuirMentors;
 import static Fase3.UI.EliminarRtree.eliminarJugador;
+import static Fase3.UI.FormacióGrups.FormarGrups;
 import static Fase3.UI.RepresentTTree.representGraficament;
 import static Fase3.UI.CercaDivisions.cerca;
 
@@ -225,7 +226,7 @@ public class Main {
                             cerca(rtree);
                             break;
                         case 'E':
-                            //TODO: formació de grups
+                            FormarGrups(rtree);
                             break;
                     }
                     break;
@@ -389,7 +390,7 @@ public class Main {
      * Llegeix el dataset dels jugadors des d'un fitxer i omple la llista de jugadors.
      */
     public static void llegirDataArbresR() {
-        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXS.paed"))) {
+        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXS.paed"))) {
             int numJugadors = Integer.parseInt(input.nextLine().trim());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < numJugadors; i++) {
