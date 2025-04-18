@@ -60,19 +60,19 @@ public class LluitaCases {
 
     }
     public static Node  TrobarMentorComuRecursiu(List <Node> cami1, List <Node> cami2,boolean PareTrobat,int i,String casa1,String casa2){
-        if(i<0){
+        if (i < 0){
             return null;
         }
         Node pare= cami1.get(i).getPare();
-        if(pare!=null && pare.getCasa()!=casa1 && pare.getCasa()!=casa2 && PareTrobat){
+        if (pare!=null && pare.getCasa()!=casa1 && pare.getCasa()!=casa2 && PareTrobat){
             return pare;
         }
-        if(cami1.get(i).getId()==cami2.get(i).getId()) {
+        if (cami1.get(i).getId()==cami2.get(i).getId()) {
             return TrobarMentorComuRecursiu(cami1, cami2, false, i + 1, casa1, casa2);
-        }else{
-            if(pare!=null && pare.getCasa()!=casa1 && pare.getCasa()!=casa2){
+        } else {
+            if (pare!=null && pare.getCasa()!=casa1 && pare.getCasa()!=casa2){
                 return pare;
-            }else{
+            } else {
                  return TrobarMentorComuRecursiu(cami1, cami2, true, i - 1, casa1, casa2);
             }
         }

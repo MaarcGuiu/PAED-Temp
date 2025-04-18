@@ -1,5 +1,9 @@
 package Fase3.RTree;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
+
 /**
  * RTree: Representa un árbol R.
  *
@@ -27,7 +31,7 @@ public class RTree {
     public RTree(int entradasMaximas, int entradasMinimas) {
         NodoRTree.ENTRADAS_MAXIMAS = entradasMaximas;
         NodoRTree.ENTRADAS_MINIMAS = entradasMinimas;
-        raiz = new NodoRTree(entradasMaximas, entradasMinimas, null);
+        raiz = new NodoRTree(entradasMaximas, entradasMinimas, null, null);
     }
 
     /**
@@ -59,21 +63,17 @@ public class RTree {
      * @param figura Figura a insertar.
      */
     private void insertar(NodoRTree nodo, Figura figura) {
-        // Paso 1: Descenso hasta la hoja
         if (nodo.esHoja()) {
             nodo.addHijo(figura);
-            // Paso 2: Si se supera la capacidad, dividir el nodo.
             if (nodo.getNumHijos() > NodoRTree.ENTRADAS_MAXIMAS) {
                 splitNode(nodo);
             }
         } else {
             NodoRTree mejorHijo = null;
             double menorIncremento = Double.MAX_VALUE;
-            // Se recorre cada hijo para elegir el más adecuado
             for (Figura f : nodo.getHijos()) {
                 if (f instanceof NodoRTree) {
                     NodoRTree hijo = (NodoRTree) f;
-                    // Si el MBR del hijo ya contiene la figura, se selecciona
                     if (hijo.getMBR() != null && contains(hijo.getMBR(), figura.getMBR())) {
                         mejorHijo = hijo;
                         break;
@@ -82,9 +82,9 @@ public class RTree {
                         Rectangulo figuraMBR = figura.getMBR();
 
                         if (hijoMBR == null || figuraMBR == null) {
-                            continue; // saltar este hijo si alguno no tiene MBR ,sino nos salia un NULL pointer exception
+                            continue;
                         }
-                        // Se calcula el incremento de perímetro que requiere añadir la figura
+
                         double incremento = hijo.getMBR().incrementoPerimetro(figura.getMBR());
                         if (incremento < menorIncremento) {
                             menorIncremento = incremento;
@@ -95,6 +95,7 @@ public class RTree {
             }
             if (mejorHijo != null) {
                 insertar(mejorHijo, figura);
+                actualizarMBRHaciaArriba(nodo);
             }
         }
     }
@@ -123,27 +124,70 @@ public class RTree {
      * @param nodo Nodo a dividir.
      */
     private void splitNode(NodoRTree nodo) {
-        NodoRTree[] splitted = nodo.split();
+        NodoRTree[] grupos = nodo.split();
+        NodoRTree g1 = grupos[0];
+        NodoRTree g2 = grupos[1];
+        int min = NodoRTree.ENTRADAS_MINIMAS;
+        if (g1.getNumHijos() < min) {
+            balanceMinEntries(g2, g1, min - g1.getNumHijos());
+        } else if (g2.getNumHijos() < min) {
+            balanceMinEntries(g1, g2, min - g2.getNumHijos());
+        }
         if (nodo.getPadre() == null) {
-            // Si es la raíz, se crea una nueva raíz con los dos nodos resultantes
-            NodoRTree newRoot = new NodoRTree(NodoRTree.ENTRADAS_MAXIMAS, NodoRTree.ENTRADAS_MINIMAS, null);
-            newRoot.addHijo(splitted[0]);
-            newRoot.addHijo(splitted[1]);
-            splitted[0].setPadre(newRoot);
-            splitted[1].setPadre(newRoot);
-            raiz = newRoot;
+            NodoRTree nuevaRaiz = new NodoRTree(NodoRTree.ENTRADAS_MAXIMAS, NodoRTree.ENTRADAS_MINIMAS, null, null);
+            nuevaRaiz.addHijo(g1);
+            nuevaRaiz.addHijo(g2);
+            raiz = nuevaRaiz;
         } else {
-            // Si tiene padre, se reemplaza el nodo en el padre
             NodoRTree padre = nodo.getPadre();
             padre.getHijos().remove(nodo);
-            splitted[0].setPadre(padre);
-            splitted[1].setPadre(padre);
-            padre.addHijo(splitted[0]);
-            padre.addHijo(splitted[1]);
+            padre.addHijo(g1);
+            padre.addHijo(g2);
             if (padre.getNumHijos() > NodoRTree.ENTRADAS_MAXIMAS) {
                 splitNode(padre);
             }
         }
     }
 
+    private void balanceMinEntries(NodoRTree donante, NodoRTree receptor, int needed) {
+        List<Figura> candidatos = new ArrayList<>(donante.getHijos());
+        candidatos.sort(Comparator.comparingDouble(f -> receptor.getMBR().incrementoPerimetro(f.getMBR())));
+        for (int i = 0; i < needed && i < candidatos.size(); i++) {
+            Figura f = candidatos.get(i);
+            donante.removeHijo(f);
+            receptor.addHijo(f);
+        }
+    }
+
+    private void actualizarMBRHaciaArriba(NodoRTree nodo) {
+        while (nodo != null) {
+            nodo.recalcularMBR();
+            nodo = nodo.getPadre();
+        }
+    }
+
+    /**
+     * Si el nodo tiene menos de ENTRADAS_MINIMAS tras una eliminación,
+     * recolecta todas sus entradas y las re-inserta en el árbol,
+     * eliminando el nodo del padre.
+     */
+    public void handleUnderflow(NodoRTree nodo) {
+        if (nodo.getNumHijos() < NodoRTree.ENTRADAS_MINIMAS) {
+            NodoRTree padre = nodo.getPadre();
+
+            List<Figura> entradas = new ArrayList<>(nodo.getHijos());
+
+            if (padre != null) {
+                padre.removeHijo(nodo);
+                for (Figura f : entradas) {
+                    insertar(raiz, f);
+                }
+                actualizarMBRHaciaArriba(padre);
+            } else {
+                if (entradas.isEmpty()) {
+                    raiz = null;
+                }
+            }
+        }
+    }
 }

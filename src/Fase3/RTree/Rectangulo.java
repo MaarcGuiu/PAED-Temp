@@ -2,13 +2,11 @@ package Fase3.RTree;
 
 import Fase3.RTree.Jugador;
 
-
 public class Rectangulo {
     private int minHechas;
     private int maxHechas;
     private int minGanadas;
     private int maxGanadas;
-
 
     public Rectangulo(int minHechas, int maxHechas, int minGanadas, int maxGanadas) {
         this.minHechas = minHechas;
@@ -24,7 +22,7 @@ public class Rectangulo {
             } else {
                 return false;
             }
-        }else{
+        } else{
             return false;
         }
     }
