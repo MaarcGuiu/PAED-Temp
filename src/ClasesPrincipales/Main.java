@@ -369,7 +369,7 @@ public class Main {
      * Llegeix el dataset d'arbres (heroïs) des d'un fitxer i omple la llista de heroïs.
      */
     public static void llegirDataArbres() {
-        try (Scanner input = new Scanner(new File("src/Arbres/treeXXS.paed"))) {
+        try (Scanner input = new Scanner(new File("src/Arbres/treeXXL.paed"))) {
             int numHerois = Integer.parseInt(input.nextLine().trim());
             for (int i = 0; i < numHerois; i++) {
                 String[] parts = input.nextLine().split(";");
@@ -390,7 +390,7 @@ public class Main {
      * Llegeix el dataset dels jugadors des d'un fitxer i omple la llista de jugadors.
      */
     public static void llegirDataArbresR() {
-        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXS.paed"))) {
+        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXS.paed"))) {
             int numJugadors = Integer.parseInt(input.nextLine().trim());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < numJugadors; i++) {

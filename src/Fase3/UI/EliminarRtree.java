@@ -25,6 +25,7 @@ public class EliminarRtree {
         imprimirRTree(rTree.getRaiz(), "");
 
     }
+
     public static Jugador BuscarJugadorRecursivo(int id,Figura nodo) {
         if (nodo instanceof Jugador) {
             Jugador jugador = (Jugador) nodo;
@@ -42,6 +43,7 @@ public class EliminarRtree {
         }
         return null;
     }
+
     public static void EliminarRecursivo(NodoRTree nodo, RTree rTree) {
         if (nodo == null || nodo.getPadre() == null){
             return;
@@ -64,6 +66,7 @@ public class EliminarRtree {
             EliminarRecursivo(nodo.getPadre(), rTree);
         }
     }
+
     public static void imprimirRTree(NodoRTree nodo, String indent) {
         Rectangulo mbr = nodo.getMBR();
         System.out.printf("%s📦 Nodo MBR: [Hechas: %d-%d | Ganadas: %d-%d] (%d hijos)\n",
