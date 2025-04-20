@@ -44,20 +44,27 @@ public class MenuInteraccioRTree {
         String nom = scanner.nextLine().trim();
 
         int batallesFetes = leerEntero("Batalles realitzades: ");
-        int batallesGuanyades = leerEntero("Batalles guanyades: ");
+        int batallesGuanyades;
+        while (true) {
+            batallesGuanyades = leerEntero("Batalles guanyades: ");
+            if (batallesGuanyades <= batallesFetes) {
+                break;
+            }
+            System.out.println("Les batalles guanyades no poden superar les realitzades. Torna-ho a intentar.");
+        }
+
         boolean pvp = leerBooleano("PvP activat (si/no): ");
 
         System.out.print("Color de perfil: ");
         String color = scanner.nextLine().trim();
-        // Se asigna la fecha actual
-        // Más info: https://docs.oracle.com/javase/7/docs/api/java/util/Date.html
+
         Date dataRegistre = new Date();
 
         Jugador jugador = new Jugador(id, nom, dataRegistre, batallesFetes, batallesGuanyades, pvp, color);
         arbol.insertar(jugador);
         jugadors.add(jugador);
 
-        System.out.println("\nEl jugador " + nom + " ha entrat al sistema!");
+        System.out.println("\nEl jugador " + nom + " ha entrat al sistema!\n");
     }
 
     /**
