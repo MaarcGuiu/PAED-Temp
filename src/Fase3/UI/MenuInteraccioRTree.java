@@ -55,16 +55,28 @@ public class MenuInteraccioRTree {
 
         boolean pvp = leerBooleano("PvP activat (si/no): ");
 
-        System.out.print("Color de perfil: ");
-        String color = scanner.nextLine().trim();
-
+        String color;
+        while (true) {
+            System.out.print("Color de perfil: ");
+            color = scanner.nextLine().trim();
+            // más info en: https://regex101.com/
+            if (color.matches("^#[0-9A-Fa-f]{6}$")) {
+                break;
+            }
+            System.out.println("Color no vàlid. Ha de ser HEX en format #RRGGBB. Torna-ho a intentar.");
+        }
         Date dataRegistre = new Date();
 
         Jugador jugador = new Jugador(id, nom, dataRegistre, batallesFetes, batallesGuanyades, pvp, color);
+
+        //long startTime = System.nanoTime();
         arbol.insertar(jugador);
+        //long endTime   = System.nanoTime();
+
         jugadors.add(jugador);
 
-        System.out.println("\nEl jugador " + nom + " ha entrat al sistema!\n");
+        System.out.println("\nEl jugador " + nom + " ha entrat al sistema!");
+       // System.out.println("Temps d'inserció al R-Tree: " + (endTime - startTime) + " ns\n");
     }
 
     /**
