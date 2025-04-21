@@ -28,8 +28,8 @@ public class CercaDivisions {
         else {
             System.out.println("\nS’han trobat " + resultats.size() + " jugadors en aquest rang!");
             for (Jugador j : resultats) {
-                if(j.isPvp())System.out.println("\t* Nom: " + j.getName() + " ( " + j.getId() + "- " + j.getBattlesWon() + "/" + j.getBattlesDone() + " ) - PvP activat");
-                else System.out.println("\t* Nom: " + j.getName() + " ( " + j.getId() + "- " + j.getBattlesWon() + "/" + j.getBattlesDone() + " ) - PvP desactivat");
+                if(j.isPvp())System.out.println("\t* " + j.getName() + " (" + j.getId() + " - " + j.getBattlesWon() + "/" + j.getBattlesDone() + " - PvP activat)");
+                else System.out.println("\t* " + j.getName() + " (" + j.getId() + " - " + j.getBattlesWon() + "/" + j.getBattlesDone() + " - PvP desactivat)");
             }
             System.out.println("\n");
         }
