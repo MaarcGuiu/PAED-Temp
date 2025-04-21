@@ -10,9 +10,7 @@ import Fase1.Grafs.ExMapaSimplificat.MapaSimplificat;
 import Fase1.Grafs.ExSimulacioDeViatge.SimulacioDeViatge;
 import Fase2.Arbres.GeneracióDePatrulles.GeneracioDePatrulles;
 import Fase2.Arbres.buscarHeroi.searchHeroiRecursive;
-import Fase3.RTree.Figura;
 import Fase3.RTree.Jugador;
-import Fase3.RTree.NodoRTree;
 import Fase3.RTree.RTree;
 import Fase3.UI.MenuInteraccioRTree;
 
@@ -32,7 +30,7 @@ import static Fase2.Arbres.RepresentacioArbre.representacioArbre.representarArbr
 import static Fase2.Arbres.redistribucioMentors.redistribucioMentors.redistribuirMentors;
 import static Fase3.UI.EliminarRtree.eliminarJugador;
 import static Fase3.UI.FormacióGrups.FormarGrups;
-import static Fase3.UI.RepresentTTree.representGraficament;
+import static Fase3.UI.RepresentRTree.representGraficament;
 import static Fase3.UI.CercaDivisions.cerca;
 
 /**
@@ -222,7 +220,7 @@ public class Main {
                             eliminarJugador(rtree);
                             break;
                         case 'C':
-                            representGraficament(jugadors);
+                            representGraficament(rtree.getRaiz());
                             break;
                         case 'D':
                             cerca(rtree);
