@@ -69,14 +69,14 @@ public class MenuInteraccioRTree {
 
         Jugador jugador = new Jugador(id, nom, dataRegistre, batallesFetes, batallesGuanyades, pvp, color);
 
-        //long startTime = System.nanoTime();
+        long startTime = System.nanoTime();
         arbol.insertar(jugador);
-        //long endTime   = System.nanoTime();
+        long endTime   = System.nanoTime();
 
         jugadors.add(jugador);
 
         System.out.println("\nEl jugador " + nom + " ha entrat al sistema!");
-       // System.out.println("Temps d'inserció al R-Tree: " + (endTime - startTime) + " ns\n");
+        System.out.println("Temps d'inserció al R-Tree: " + (endTime - startTime) + " ns\n");
     }
 
     /**

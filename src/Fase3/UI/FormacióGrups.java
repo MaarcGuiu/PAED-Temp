@@ -37,9 +37,6 @@ public class FormacióGrups {
         equipo1 = new ArrayList<>();
         equipo2 = new ArrayList<>();
 
-
-
-
         InicializarColas();
 
         BuscarGrups(rTree.getRaiz());
