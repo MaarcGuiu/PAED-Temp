@@ -70,10 +70,10 @@ public class Main {
 
 
         assignarFillsMaxims();
-        int i=0;
+
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
-            i++;
+
         }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
 
@@ -390,7 +390,7 @@ public class Main {
      * Llegeix el dataset dels jugadors des d'un fitxer i omple la llista de jugadors.
      */
     public static void llegirDataArbresR() {
-        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXL.paed"))) {
+        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXS.paed"))) {
             int numJugadors = Integer.parseInt(input.nextLine().trim());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < numJugadors; i++) {
