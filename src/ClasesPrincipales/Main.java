@@ -70,8 +70,10 @@ public class Main {
 
 
         assignarFillsMaxims();
+
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
+
         }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
 

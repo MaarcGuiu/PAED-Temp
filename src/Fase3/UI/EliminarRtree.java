@@ -9,8 +9,7 @@ import java.util.Scanner;
 public class EliminarRtree {
 
     public static void eliminarJugador(RTree rTree) {
-        System.out.println("📋 Estado del RTree antes de eliminar:");
-        imprimirRTree(rTree.getRaiz(), "");
+
         System.out.println("Introduce el ID del jugador a eliminar:");
         Scanner input = new Scanner(System.in);
         int id =input.nextInt();
@@ -21,8 +20,7 @@ public class EliminarRtree {
         EliminarRecursivo(padre,rTree);
 
         System.out.println("Jugador "+ jugador.getId()+" eliminado y reinsertado correctamente.");
-        System.out.println("\n📋 Estado del RTree después de eliminar y reinsertar:");
-        imprimirRTree(rTree.getRaiz(), "");
+
 
     }
 
@@ -67,24 +65,7 @@ public class EliminarRtree {
         }
     }
 
-    public static void imprimirRTree(NodoRTree nodo, String indent) {
-        Rectangulo mbr = nodo.getMBR();
-        System.out.printf("%s📦 Nodo MBR: [Hechas: %d-%d | Ganadas: %d-%d] (%d hijos)\n",
-                indent,
-                mbr.getMinHechas(), mbr.getMaxHechas(),
-                mbr.getMinGanadas(), mbr.getMaxGanadas(),
-                nodo.getNumHijos());
 
-        for (Figura hijo : nodo.getHijos()) {
-            if (hijo instanceof Jugador) {
-                Jugador j = (Jugador) hijo;
-                System.out.printf("%s  👤 Jugador ID: %d | Nombre: %s | Hechas: %d | Ganadas: %d\n",
-                        indent, j.getId(), j.getName(), j.getBattlesDone(), j.getBattlesWon());
-            } else if (hijo instanceof NodoRTree) {
-                imprimirRTree((NodoRTree) hijo, indent + "  ");
-            }
-        }
-    }
 
 
 }
