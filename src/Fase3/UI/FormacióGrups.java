@@ -23,7 +23,7 @@ public class FormacióGrups {
 
 
     public static void FormarGrups(RTree rTree) {
-        System.out.println(contarJugadorsPvp(rTree.getRaiz()) + " Jugadors amb PVP activat.");
+
 
         Scanner input = new Scanner(System.in);
         System.out.println("Introdueix el nombre de batalles realitzades: ");
@@ -42,23 +42,24 @@ public class FormacióGrups {
         BuscarGrups(rTree.getRaiz());
 
         if (jugadoresAptos.size() < numJugadorsElegidos) {
-            System.out.println("No hi ha suficients jugadors per formar un grup amb les condicions especificades.");
+            System.out.println("No hi ha suficients jugadors.");
             return;
         }else {
-            for(int i=0; i<numJugadorsElegidos; i++){
+            for (int i = 0; i < numJugadorsElegidos; i++) {
                 Jugador jugador = (Jugador) jugadoresAptos.poll();
                 jugadoresParaEquipos.add(jugador);
             }
-            if(jugadoresParaEquipos.size() %2 ==0  && jugadoresParaEquipos.size() > 5) {
+
+            if (jugadoresParaEquipos.size() % 2 == 0 && jugadoresParaEquipos.size() > 5) {
                 for (int i = 0; i < jugadoresParaEquipos.size(); i++) {
-                  if(i%2==0) {
-                      equipo1.add(jugadoresParaEquipos.get(i));
-                  }else{
+                    if (i % 2 == 0) {
+                        equipo1.add(jugadoresParaEquipos.get(i));
+                    } else {
                         equipo2.add(jugadoresParaEquipos.get(i));
-                  }
+                    }
                 }
                 String colorMedio1 = calcularColorMedio(equipo1);
-                String  colorMedio2 = calcularColorMedio(equipo2);
+                String colorMedio2 = calcularColorMedio(equipo2);
                 String reset = "\u001B[0m";
 
                 Color color1 = hex2Rgb(colorMedio1);
@@ -76,8 +77,17 @@ public class FormacióGrups {
                 for (Jugador jugador : equipo2) {
                     System.out.println(ansi2 + jugador.getName() + reset);
                 }
+            } else {
+                System.out.println("Els " + numJugadorsElegidos + " mes propers son :\n");
+                for (Jugador j : jugadoresParaEquipos) {
+                    if (j.isPvp())
+                        System.out.println("\t* " + j.getName() + " (" + j.getId() + " - " + j.getBattlesWon() + "/" + j.getBattlesDone() + " - PvP activat)");
+                    else
+                        System.out.println("\t* " + j.getName() + " (" + j.getId() + " - " + j.getBattlesWon() + "/" + j.getBattlesDone() + " - PvP desactivat)");
+                }
             }
         }
+        System.out.println("\n");
 
     }
     public static void  BuscarGrups(NodoRTree raiz) {

@@ -70,10 +70,8 @@ public class Main {
 
 
         assignarFillsMaxims();
-        int i=0;
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
-            i++;
         }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
 
@@ -390,7 +388,7 @@ public class Main {
      * Llegeix el dataset dels jugadors des d'un fitxer i omple la llista de jugadors.
      */
     public static void llegirDataArbresR() {
-        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXL.paed"))) {
+        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXS.paed"))) {
             int numJugadors = Integer.parseInt(input.nextLine().trim());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < numJugadors; i++) {
@@ -420,30 +418,23 @@ public class Main {
      */
     public static void assignarFillsMaxims() {
         int total = jugadors.size();
-        double porcentaje = 0.6;
 
-        if(total <= 100) {
-            porcentaje = 0.6;
-        }else {
-            if (total <=1000 ) {
-                porcentaje = 0.55;
-            }else {
-                if (total <= 10000) {
-                    porcentaje = 0.5;
-                }else {
-                   porcentaje = 0.40;
+
+        int maxEntrades = 3;
+
+        if (jugadors.size() < 500) {
+            maxEntrades = 3;
+        } else {
+            if (jugadors.size() >= 500 && jugadors.size() < 10000) {
+                maxEntrades = 5;
+            } else {
+                if (jugadors.size() >= 10000) {
+                    maxEntrades = 7;
                 }
-            };
+            }
         }
-
-        int maxEntrades = (int) (Math.ceil(jugadors.size()*porcentaje));
-
-        if(maxEntrades<5){
-            maxEntrades = 10;
-        }
-        int minEntrades = (int)(Math.ceil(maxEntrades*0.3));
+        int minEntrades = (int) (Math.ceil(maxEntrades * 0.3));
 
         rtree = new RTree(maxEntrades, minEntrades);
-
     }
 }
