@@ -420,30 +420,23 @@ public class Main {
      */
     public static void assignarFillsMaxims() {
         int total = jugadors.size();
-        double porcentaje = 0.6;
 
-        if(total <= 100) {
-            porcentaje = 0.6;
-        }else {
-            if (total <=1000 ) {
-                porcentaje = 0.55;
-            }else {
-                if (total <= 10000) {
-                    porcentaje = 0.5;
-                }else {
-                   porcentaje = 0.40;
+
+        int maxEntrades = 3;
+
+        if (jugadors.size() < 500) {
+            maxEntrades = 3;
+        } else {
+            if (jugadors.size() >= 500 && jugadors.size() < 10000) {
+                maxEntrades = 5;
+            } else {
+                if (jugadors.size() >= 10000) {
+                    maxEntrades = 7;
                 }
-            };
+            }
         }
-
-        int maxEntrades = (int) (Math.ceil(jugadors.size()*porcentaje));
-
-        if(maxEntrades<5){
-            maxEntrades = 10;
-        }
-        int minEntrades = (int)(Math.ceil(maxEntrades*0.3));
+        int minEntrades = (int) (Math.ceil(maxEntrades * 0.3));
 
         rtree = new RTree(maxEntrades, minEntrades);
-
     }
 }
