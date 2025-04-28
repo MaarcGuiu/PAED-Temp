@@ -20,6 +20,7 @@ src/Graphs/
 src/Arbres/
 src/ArbresR/
 src/Rtress/
+src/Tables/
 
 ### NetBeans ###
 /nbproject/private/
