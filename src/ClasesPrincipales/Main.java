@@ -14,8 +14,8 @@ import Fase3.RTree.Jugador;
 import Fase3.RTree.RTree;
 import Fase3.UI.MenuInteraccioRTree;
 import Fase4.Model.ProductionType;
+import Fase4.Taules.HashMap;
 import Fase4.Taules.Production;
-import Fase4.Taules.ProductionTable;
 import Fase4.UI.ProductionUI;
 
 import java.io.File;
@@ -50,7 +50,7 @@ public class Main {
     static List<Heroi> herois = new ArrayList<>();
     static List<Jugador> jugadors = new ArrayList<>();
     static RTree rtree ;
-    static ProductionTable productionTable;
+    static List <Production> produccions = new ArrayList<>();
 
     public static final String GRAPH_DATA = "src/Graphs/graphsXXS.paed";
     public static final String TREE_DATA = "src/Arbres/treeXS.paed";
@@ -85,6 +85,11 @@ public class Main {
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
 
+        }
+
+        HashMap hashMap = new HashMap(produccions.size() + 10);
+        for (Production produccio : produccions) {
+            hashMap.put(produccio.getName(), produccio);
         }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
 
@@ -252,19 +257,19 @@ public class Main {
                     while (optTaula != 'E') {
                         switch (optTaula) {
                             case 'A':
-                                ProductionUI.addProduction(input, productionTable);
+                                ProductionUI.addProduction(input, hashMap);
                                 break;
                             case 'B':
-                                ProductionUI.removeProduction(input, productionTable);
+                                ProductionUI.removeProduction(input, hashMap);
                                 break;
                             case 'C':
-                                ProductionUI.consultProduction(input, productionTable);
+                                ProductionUI.consultProduction(input, hashMap);
                                 break;
                             case 'D':
-                                ProductionUI.searchByRevenue(input, productionTable);
+                                ProductionUI.searchByRevenue(input, hashMap);
                                 break;
                             case 'E':
-                                ProductionUI.statistics(input, productionTable);
+                                ProductionUI.statistics(input, hashMap);
                             case 'F':
 
                                 break;
@@ -495,16 +500,16 @@ public class Main {
     public static void llegirDataTaules() {
         try (Scanner input = new Scanner(new File(TABLE_DATA))) {
             int n = Integer.parseInt(input.nextLine().trim());
-            List<Production> loaded = new ArrayList<>(n);
+            produccions = new ArrayList<>(n);
             for (int i = 0; i < n; i++) {
                 String[] p = input.nextLine().split(";");
                 String nombre = p[0].trim();
 
                 ProductionType tipo = ProductionType.fromString(p[1].trim());
                 int ingresos = Integer.parseInt(p[2].trim());
-                loaded.add(new Production(nombre, tipo, ingresos));
+                produccions.add(new Production(nombre, tipo, ingresos));
             }
-            productionTable = new ProductionTable(loaded);
+
         } catch (FileNotFoundException e) {
             System.err.println("Fichero no encontrado: " + e.getMessage());
         } catch (IllegalArgumentException e) {

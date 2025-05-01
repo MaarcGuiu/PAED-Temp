@@ -1,7 +1,7 @@
 package Fase4.UI;
 
+import Fase4.Taules.HashMap;
 import Fase4.Taules.Production;
-import Fase4.Taules.ProductionTable;
 import Fase4.Model.ProductionType;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ProductionUI {
 
-    public static void addProduction(Scanner input, ProductionTable table) {
+    public static void addProduction(Scanner input, HashMap table) {
         String aux = input.nextLine();
 
         System.out.print("Nom de la producció: ");
@@ -50,27 +50,28 @@ public class ProductionUI {
         }
 
         Production prod = new Production(name, type, revenue);
-        table.addProduction(prod);
+        table.put(prod.getName(), prod);
 
-        System.out.println("\nEl " + type.getDisplayName() + " \"" + name + "\" s'ha registrat!\n");
-        System.out.println("Totes les produccions registrades:");
-        for (Production p : table.getAllProductions()) {
-            System.out.printf(" - %s (%s) : %d€\n",
-                    p.getName(),
-                    p.getType().getDisplayName(),
-                    p.getRevenue()
-            );
+        HashMap.Entrada[] totes = table.getAllProductions();
+        totes= table.getAllProductions();
+
+        System.out.println("\nProducció afegida: " + name + " (" + type.name() + " - " + revenue + "€)\n");
+        System.out.println("Produccions actuals:");
+        for (int i = 0; i < totes.length; i++) {
+            if (totes[i] != null && !totes[i].getIsFree()) {
+                System.out.println(" * " + totes[i].getValue().getName() + " (" + totes[i].getValue().getType().name() + " - " + totes[i].getValue().getRevenue() + "€)\n");
+            }
         }
     }
 
-    public static void removeProduction(Scanner input, ProductionTable table) {
+    public static void removeProduction(Scanner input, HashMap table) {
         String aux = input.nextLine();
 
         System.out.print("Introdueix el nom de la producció a eliminar: ");
         String name = input.nextLine().trim();
-        Production prod = table.findProductionByName(name);
+        Production prod = table.get(name);
         if (prod != null) {
-            table.removeProduction(name);
+            table.remove(name);
             String typeName = prod.getType().name();
             int rev = prod.getRevenue();
             System.out.println("\nLa producció " + name + " (" + typeName + " - " + rev + "€) ha estat eliminada del sistema!\n");
@@ -79,12 +80,12 @@ public class ProductionUI {
         }
     }
 
-    public static void consultProduction(Scanner input, ProductionTable table) {
+    public static void consultProduction(Scanner input, HashMap table) {
         String aux = input.nextLine();
 
         System.out.print("Introdueix el nom de la producció a consultar: ");
         String name = input.nextLine().trim();
-        Production prod = table.findProductionByName(name);
+        Production prod = table.get(name);
         if (prod != null) {
             String typeName = prod.getType().name();
             int rev = prod.getRevenue();
@@ -94,9 +95,9 @@ public class ProductionUI {
         }
     }
 
-    public static void searchByRevenue(Scanner input, ProductionTable table) {
+    public static void searchByRevenue(Scanner input, HashMap table) {
         String aux = input.nextLine();
-
+        /*
         int minRev;
         while (true) {
             System.out.print("Introdueix el mínim de diners generats: ");
@@ -143,10 +144,10 @@ public class ProductionUI {
         System.out.println("\nLes produccions en el rang són:");
         for (Production p : results) {
             System.out.println(" * " + p.getName() + " (" + p.getType().name() + " - " + p.getRevenue() + "€)\n");
-        }
+        }*/
     }
 
-    public static void statistics(Scanner input, ProductionTable table) {
+    public static void statistics(Scanner input, HashMap table) {
         String aux = input.nextLine();
         // TODO: implementar estadístiques
     }
