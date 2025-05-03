@@ -5,6 +5,7 @@ import Fase4.Taules.Production;
 import Fase4.Model.ProductionType;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,7 +98,7 @@ public class ProductionUI {
 
     public static void searchByRevenue(Scanner input, HashMap table) {
         String aux = input.nextLine();
-        /*
+
         int minRev;
         while (true) {
             System.out.print("Introdueix el mínim de diners generats: ");
@@ -125,26 +126,27 @@ public class ProductionUI {
         }
 
         List<Production> results = new ArrayList<>();
-        for (Production p : table.getAllProductions()) {
-            if (p.getRevenue() >= minRev && p.getRevenue() <= maxRev) {
-                results.add(p);
+        for (HashMap.Entrada e : table.getAllProductions()) {
+            if (e != null && !e.getIsFree()) {
+                Production p = e.getValue();
+                int rev = p.getRevenue();
+                if (rev >= minRev && rev <= maxRev) {
+                    results.add(p);
+                }
             }
         }
 
-        for (int i = 0; i < results.size() - 1; i++) {
-            for (int j = 0; j < results.size() - 1 - i; j++) {
-                if (results.get(j).getRevenue() < results.get(j + 1).getRevenue()) {
-                    Production tmp = results.get(j);
-                    results.set(j, results.get(j + 1));
-                    results.set(j + 1, tmp);
-                }
-            }
+        results.sort(Comparator.comparingInt(Production::getRevenue).reversed());
+
+        if (results.isEmpty()) {
+            System.out.println("\nNo s'ha trobat cap producció en el rang indicat.\n");
+            return;
         }
 
         System.out.println("\nLes produccions en el rang són:");
         for (Production p : results) {
             System.out.println(" * " + p.getName() + " (" + p.getType().name() + " - " + p.getRevenue() + "€)\n");
-        }*/
+        }
     }
 
     public static void statistics(Scanner input, HashMap table) {
