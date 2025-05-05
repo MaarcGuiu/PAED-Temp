@@ -13,6 +13,10 @@ import Fase2.Arbres.buscarHeroi.searchHeroiRecursive;
 import Fase3.RTree.Jugador;
 import Fase3.RTree.RTree;
 import Fase3.UI.MenuInteraccioRTree;
+import Fase4.Model.ProductionType;
+import Fase4.Taules.HashMap;
+import Fase4.Taules.Production;
+import Fase4.UI.ProductionUI;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +50,12 @@ public class Main {
     static List<Heroi> herois = new ArrayList<>();
     static List<Jugador> jugadors = new ArrayList<>();
     static RTree rtree ;
+    static List <Production> produccions = new ArrayList<>();
+
+    public static final String GRAPH_DATA = "src/Graphs/graphsXXS.paed";
+    public static final String TREE_DATA = "src/Arbres/treeXS.paed";
+    public static final String RTREE_DATA = "src/ArbresR/rtreeXXS.paed";
+    public static final String TABLE_DATA = "src/Tables/tablesXXS.txt";
 
     /**
      * Método principal. Lee los datos de los archivos, construye las estructuras y muestra
@@ -59,6 +69,7 @@ public class Main {
         omplirMatriuAdj(matriuAdj);
         llegirDataArbres();
         llegirDataArbresR();
+        llegirDataTaules();
 
         Node nodeArrel = new Node(herois.get(0).getId(), herois.get(0).getNom(), herois.get(0).getPoder(), herois.get(0).getCasa(), herois.get(0).getMaterial());
         Arbre arbre = new Arbre(nodeArrel);
@@ -70,10 +81,15 @@ public class Main {
 
 
         assignarFillsMaxims();
-        int i=0;
+
         for(Jugador jugador : jugadors) {
             rtree.insertar(jugador);
-            i++;
+
+        }
+
+        HashMap hashMap = new HashMap(produccions.size() + 10);
+        for (Production produccio : produccions) {
+            hashMap.put(produccio.getName(), produccio);
         }
         MenuInteraccioRTree menu = new MenuInteraccioRTree(rtree, jugadors);
 
@@ -85,7 +101,7 @@ public class Main {
                 "1. Disseny de lore (Grafs)\n" +
                 "2. Control d’herois (Arbres)\n" +
                 "3. Expansió virtual (Arbres R)\n" +
-                "4. PER ESPECIFICAR\n" +
+                "4. Dominació multimèdia (Taules)\n" +
                 "5. Aturar\n" +
                 "Escull un bloc: ");
 
@@ -231,14 +247,52 @@ public class Main {
                     }
                     break;
                 case 4:
-                    //TODO: implementar funcionalitat per a especificar
-                    option = readInt(input, 1, 5, "·*:. Song of Structures .:*·\n" +
-                            "1. Disseny de lore (Grafs)\n" +
-                            "2. Control d’herois (Arbres)\n" +
-                            "3. Expansió virtual (Arbres R)\n" +
-                            "4. PER ESPECIFICAR\n" +
-                            "5. Aturar\n" +
-                            "Escull un bloc: ");
+                    char optTaula = readChar(input, "A", "E",
+                            "A. Afegir producció\n" +
+                                    "B. Eliminar producció\n" +
+                                    "C. Consulta\n" +
+                                    "D. Cerca per facturació\n" +
+                                    "E. Tornar enrere\n" +
+                                    "Escull una opció: ");
+                    while (optTaula != 'E') {
+                        switch (optTaula) {
+                            case 'A':
+                                ProductionUI.addProduction(input, hashMap);
+                                break;
+                            case 'B':
+                                ProductionUI.removeProduction(input, hashMap);
+                                break;
+                            case 'C':
+                                ProductionUI.consultProduction(input, hashMap);
+                                break;
+                            case 'D':
+                                ProductionUI.searchByRevenue(input, hashMap);
+                                break;
+                            case 'E':
+                                ProductionUI.statistics(input, hashMap);
+                            case 'F':
+
+                                break;
+                            default:
+                                System.out.println("Opció no vàlida");
+                        }
+                        optTaula = readChar(input, "A", "E",
+                                "A. Afegir producció\n" +
+                                        "B. Eliminar producció\n" +
+                                        "C. Consulta\n" +
+                                        "D. Cerca per facturació\n" +
+                                        "E. Tornar enrere\n" +
+                                        "Escull una opció: ");
+                    }
+
+                    option = readInt(input, 1, 5,
+                            "·*:. Song of Structures .:*·\n" +
+                                    "1. Disseny de lore (Grafs)\n" +
+                                    "2. Control d’herois (Arbres)\n" +
+                                    "3. Expansió virtual (Arbres R)\n" +
+                                    "4. Taules de producció\n" +
+                                    "5. Aturar\n" +
+                                    "Escull un bloc: ");
                     break;
                 case 5:
                     System.out.println("\nAturant Song of Structures.\n" +
@@ -254,7 +308,7 @@ public class Main {
      * Llegeix el dataset dels grafs des d'un fitxer i omple la llista de llocs i rutes.
      */
     public static void llegirDataGrafs() {
-        try (Scanner input = new Scanner(new File("src/Graphs/graphsXXS.paed"))) {
+        try (Scanner input = new Scanner(new File(GRAPH_DATA))) {
             int numLlocs = Integer.parseInt(input.nextLine().trim());
             for (int i = 0; i < numLlocs; i++) {
                 String[] parts = input.nextLine().split(";");
@@ -369,7 +423,7 @@ public class Main {
      * Llegeix el dataset d'arbres (heroïs) des d'un fitxer i omple la llista de heroïs.
      */
     public static void llegirDataArbres() {
-        try (Scanner input = new Scanner(new File("src/Arbres/treeXS.paed"))) {
+        try (Scanner input = new Scanner(new File(TREE_DATA))) {
             int numHerois = Integer.parseInt(input.nextLine().trim());
             for (int i = 0; i < numHerois; i++) {
                 String[] parts = input.nextLine().split(";");
@@ -390,7 +444,7 @@ public class Main {
      * Llegeix el dataset dels jugadors des d'un fitxer i omple la llista de jugadors.
      */
     public static void llegirDataArbresR() {
-        try (Scanner input = new Scanner(new File("src/ArbresR/rtreeXXL.paed"))) {
+        try (Scanner input = new Scanner(new File(RTREE_DATA))) {
             int numJugadors = Integer.parseInt(input.nextLine().trim());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < numJugadors; i++) {
@@ -420,30 +474,46 @@ public class Main {
      */
     public static void assignarFillsMaxims() {
         int total = jugadors.size();
-        double porcentaje = 0.6;
 
-        if(total <= 100) {
-            porcentaje = 0.6;
-        }else {
-            if (total <=1000 ) {
-                porcentaje = 0.55;
-            }else {
-                if (total <= 10000) {
-                    porcentaje = 0.5;
-                }else {
-                   porcentaje = 0.40;
+
+        int maxEntrades = 3;
+
+        if (jugadors.size() < 500) {
+            maxEntrades = 3;
+        } else {
+            if (jugadors.size() >= 500 && jugadors.size() < 10000) {
+                maxEntrades = 5;
+            } else {
+                if (jugadors.size() >= 10000) {
+                    maxEntrades = 7;
                 }
-            };
+            }
         }
-
-        int maxEntrades = (int) (Math.ceil(jugadors.size()*porcentaje));
-
-        if(maxEntrades<5){
-            maxEntrades = 10;
-        }
-        int minEntrades = (int)(Math.ceil(maxEntrades*0.3));
+        int minEntrades = (int) (Math.ceil(maxEntrades * 0.3));
 
         rtree = new RTree(maxEntrades, minEntrades);
+    }
 
+    /**
+     * Lee el dataset de producciones (.paed) y construye la tabla de producciones.
+     */
+    public static void llegirDataTaules() {
+        try (Scanner input = new Scanner(new File(TABLE_DATA))) {
+            int n = Integer.parseInt(input.nextLine().trim());
+            produccions = new ArrayList<>(n);
+            for (int i = 0; i < n; i++) {
+                String[] p = input.nextLine().split(";");
+                String nombre = p[0].trim();
+
+                ProductionType tipo = ProductionType.fromString(p[1].trim());
+                int ingresos = Integer.parseInt(p[2].trim());
+                produccions.add(new Production(nombre, tipo, ingresos));
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Fichero no encontrado: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error de parseo en producciones: " + e.getMessage());
+        }
     }
 }
