@@ -4,10 +4,7 @@ import Fase4.Taules.HashMap;
 import Fase4.Taules.Production;
 import Fase4.Model.ProductionType;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class ProductionUI {
@@ -150,7 +147,24 @@ public class ProductionUI {
     }
 
     public static void statistics(Scanner input, HashMap table) {
-        String aux = input.nextLine();
-        // TODO: implementar estadístiques
+        int[] tipoContador = new int[ProductionType.values().length];
+
+        for (HashMap.Entrada entrada : table.getAllProductions()) {
+            if (entrada != null && !entrada.getIsFree()) {
+                Production production = entrada.getValue();
+                int index = production.getType().ordinal();
+                tipoContador[index]++;
+            }
+        }
+
+        System.out.println("\nLes estadístiques són les següents:");
+
+        ProductionType[] types = ProductionType.values();
+
+        for (int i = 0; i < types.length; i++) {
+            int count = tipoContador[i];
+            System.out.println(" * " + types[i] + ": " + count);
+        }
+        System.out.println("\n");
     }
 }
