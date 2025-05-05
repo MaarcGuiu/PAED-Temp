@@ -247,14 +247,15 @@ public class Main {
                     }
                     break;
                 case 4:
-                    char optTaula = readChar(input, "A", "E",
+                    char optTaula = readChar(input, "A", "F",
                             "A. Afegir producció\n" +
                                     "B. Eliminar producció\n" +
                                     "C. Consulta\n" +
                                     "D. Cerca per facturació\n" +
-                                    "E. Tornar enrere\n" +
+                                    "E. Estadístiques\n" +
+                                    "F. Tornar enrere\n" +
                                     "Escull una opció: ");
-                    while (optTaula != 'E') {
+                    while (optTaula != 'F') {
                         switch (optTaula) {
                             case 'A':
                                 ProductionUI.addProduction(input, hashMap);
@@ -276,12 +277,13 @@ public class Main {
                             default:
                                 System.out.println("Opció no vàlida");
                         }
-                        optTaula = readChar(input, "A", "E",
+                        optTaula = readChar(input, "A", "F",
                                 "A. Afegir producció\n" +
                                         "B. Eliminar producció\n" +
                                         "C. Consulta\n" +
                                         "D. Cerca per facturació\n" +
-                                        "E. Tornar enrere\n" +
+                                        "E. Estadístiques\n" +
+                                        "F. Tornar enrere\n" +
                                         "Escull una opció: ");
                     }
 
