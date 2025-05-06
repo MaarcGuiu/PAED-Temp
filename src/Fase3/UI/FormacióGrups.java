@@ -33,6 +33,10 @@ public class FormacióGrups {
         System.out.println("Introdueix el nombre de jugadors a formar: ");
         numJugadorsElegidos = input.nextInt();
 
+        long startTime = System.nanoTime();
+
+
+
         jugadoresParaEquipos= new ArrayList<>();
         equipo1 = new ArrayList<>();
         equipo2 = new ArrayList<>();
@@ -42,7 +46,7 @@ public class FormacióGrups {
         BuscarGrups(rTree.getRaiz());
 
         if (jugadoresAptos.size() < numJugadorsElegidos) {
-            System.out.println("No hi ha suficients jugadors.");
+            System.out.println("No hi ha suficients jugadors amb PVP activados.");
             return;
         }else {
             for (int i = 0; i < numJugadorsElegidos; i++) {
@@ -87,6 +91,9 @@ public class FormacióGrups {
                 }
             }
         }
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        System.out.println("Duración: " + duration  + " ns");
         System.out.println("\n");
 
     }

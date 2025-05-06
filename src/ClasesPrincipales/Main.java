@@ -53,8 +53,8 @@ public class Main {
     static List <Production> produccions = new ArrayList<>();
 
     public static final String GRAPH_DATA = "src/Graphs/graphsXXS.paed";
-    public static final String TREE_DATA = "src/Arbres/treeXS.paed";
-    public static final String RTREE_DATA = "src/ArbresR/rtreeXXS.paed";
+    public static final String TREE_DATA = "src/Arbres/treeXXS.paed";
+    public static final String RTREE_DATA = "src/ArbresR/rtreeXS.paed";
     public static final String TABLE_DATA = "src/Tables/tablesXXS.txt";
 
     /**
@@ -69,7 +69,7 @@ public class Main {
         omplirMatriuAdj(matriuAdj);
         llegirDataArbres();
         llegirDataArbresR();
-        llegirDataTaules();
+        //llegirDataTaules();
 
         Node nodeArrel = new Node(herois.get(0).getId(), herois.get(0).getNom(), herois.get(0).getPoder(), herois.get(0).getCasa(), herois.get(0).getMaterial());
         Arbre arbre = new Arbre(nodeArrel);
