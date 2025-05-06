@@ -7,19 +7,36 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EliminarRtree {
+    private static int numRestructuracions = 0;
 
     public static void eliminarJugador(RTree rTree) {
+
 
         System.out.println("Introduce el ID del jugador a eliminar:");
         Scanner input = new Scanner(System.in);
         int id =input.nextInt();
 
+        long startTime = System.nanoTime();
+
         Jugador jugador = BuscarJugadorRecursivo(id, rTree.getRaiz());
+        if(jugador == null) {
+            System.out.println("Jugador no encontrado.");
+            return;
+        }
         NodoRTree padre = jugador.getPadre();
         padre.removeHijo(jugador);
         EliminarRecursivo(padre,rTree);
 
+        long endTime = System.nanoTime();
+
         System.out.println("Jugador "+ jugador.getId()+" eliminado y reinsertado correctamente.");
+        System.out.println("\n📋 Estado del RTree después de eliminar y reinsertar:");
+
+        long totalTime = endTime - startTime;
+
+        //System.out.println("Tiempo total : " +totalTime + " ns");
+
+        System.out.println("Reestructuraciones recursivas realizadas: " + numRestructuracions);
 
 
     }
@@ -49,6 +66,7 @@ public class EliminarRtree {
 
         if (nodo.getNumHijos() < NodoRTree.ENTRADAS_MINIMAS) {
 
+            numRestructuracions++;
             NodoRTree padre = nodo.getPadre();
 
             List <Figura> hijos = new ArrayList<>(nodo.getHijos());
@@ -64,7 +82,6 @@ public class EliminarRtree {
             EliminarRecursivo(nodo.getPadre(), rTree);
         }
     }
-
 
 
 
